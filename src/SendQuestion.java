@@ -21,14 +21,14 @@ public class SendQuestion extends HttpServlet {
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException,
             IOException {
         Question question = new Question();
-        StringBuffer stringBuffer = new StringBuffer();
+        StringBuilder stringBuilder = new StringBuilder();
         BufferedReader bufferedReader = new BufferedReader(new InputStreamReader(request.getInputStream(), "utf-8"));
         String tmp;
         while ((tmp = bufferedReader.readLine()) != null) {
-            stringBuffer.append(tmp);
+            stringBuilder.append(tmp);
         }
         bufferedReader.close();
-        question.fillFromJson(stringBuffer.toString());
+        question.fillFromJson(stringBuilder.toString());
         QuestionManager.saveQuestion(question);
     }
 }

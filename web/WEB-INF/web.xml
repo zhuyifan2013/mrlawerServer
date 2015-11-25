@@ -39,5 +39,14 @@
         <url-pattern>/sendQuestion</url-pattern>
     </servlet-mapping>
 
+    <servlet>
+        <servlet-name>updateAccount</servlet-name>
+        <servlet-class>UpdateAccount</servlet-class>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>updateAccount</servlet-name>
+        <url-pattern>/updateAccount</url-pattern>
+    </servlet-mapping>
+
 
 </web-app>

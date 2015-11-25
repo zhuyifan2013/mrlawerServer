@@ -16,6 +16,7 @@ public class Account {
     public static final String PARAM_COLLEGE = "college";
     public static final String PARAM_EDUCATION = "education";
     public static final String PARAM_USER_TYPE = "userType";
+    public static final String PARAM_FAMILIAR_AREA = "familiarArea";
 
     private int mUserId;
     private String mToken;
@@ -28,6 +29,15 @@ public class Account {
     private int mUserType;
     private String mCollege;
     private String mEducation;
+    private int mFamiliarArea;
+
+    public int getFamiliarArea() {
+        return mFamiliarArea;
+    }
+
+    public void setFamiliarArea(int familiarArea) {
+        mFamiliarArea = familiarArea;
+    }
 
     public int getUserType() {
         return mUserType;
@@ -131,9 +141,31 @@ public class Account {
             jsonObject.put(PARAM_USER_TYPE, mUserType);
             jsonObject.put(PARAM_COLLEGE, mCollege);
             jsonObject.put(PARAM_EDUCATION, mEducation);
+            jsonObject.put(PARAM_FAMILIAR_AREA, mFamiliarArea);
         } catch (JSONException e) {
             e.printStackTrace();
         }
         return jsonObject.toString();
     }
+
+    public void fillSelf(String rawJson) {
+        try {
+            JSONObject jsonObject = new JSONObject(rawJson);
+            this.setUserId(jsonObject.getInt(PARAM_USERID));
+            this.setToken(jsonObject.getString(PARAM_TOKEN));
+            this.setUserName(jsonObject.getString(PARAM_USERNAME));
+            this.setPassword(jsonObject.getString(PARAM_PASSWORD));
+            this.setNickName(jsonObject.getString(PARAM_NICKNAME));
+            this.setGender(jsonObject.getInt(PARAM_GENDER));
+            this.setCityCode(jsonObject.getInt(PARAM_USERID));
+            this.setAge(jsonObject.getInt(PARAM_USERID));
+            this.setUserType(jsonObject.getInt(PARAM_USER_TYPE));
+            this.setCollege(jsonObject.getString(PARAM_COLLEGE));
+            this.setEducation(jsonObject.getString(PARAM_EDUCATION));
+            this.setFamiliarArea(jsonObject.getInt(PARAM_FAMILIAR_AREA));
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+    }
+
 }
