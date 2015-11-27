@@ -5,6 +5,7 @@ import org.json.JSONObject;
 
 public class Question {
 
+    public static final String PARAM_QUESTIONID_INFO = "questionInfo";
     public static final String PARAM_QUESTIONID = "questionID";
     public static final String PARAM_USERID = "userID";
     public static final String PARAM_TYPE = "type";
@@ -123,5 +124,24 @@ public class Question {
         } catch (JSONException e) {
             e.printStackTrace();
         }
+    }
+
+    public String toJson() {
+        JSONObject jsonObject = new JSONObject();
+        try {
+            jsonObject.put(PARAM_QUESTIONID, this.mQuestionID);
+            jsonObject.put(PARAM_USERID, this.mUserID);
+            jsonObject.put(PARAM_TYPE, this.mQuestionType);
+            jsonObject.put(PARAM_TIMESTART, this.mTimeStart);
+            jsonObject.put(PARAM_TIMEEND, this.mTimeEnd);
+            jsonObject.put(PARAM_TEXT, this.mText);
+            jsonObject.put(PARAM_URL, this.mUrl);
+            jsonObject.put(PARAM_STATUS, this.mStatus);
+            jsonObject.put(PARAM_LAWERID, this.mLawerID);
+            jsonObject.put(PARAM_STAR, this.mStar);
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+        return jsonObject.toString();
     }
 }

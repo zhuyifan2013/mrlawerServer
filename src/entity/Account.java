@@ -5,6 +5,8 @@ import org.json.JSONObject;
 
 public class Account {
 
+    public static final String PARAM_ACCOUNT_INFO = "accountInfo";
+
     public static final String PARAM_USERID = "userId";
     public static final String PARAM_TOKEN = "token";
     public static final String PARAM_USERNAME = "username";

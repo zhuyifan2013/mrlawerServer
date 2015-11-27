@@ -1,4 +1,5 @@
 import entity.Account;
+import entity.Question;
 import util.Constants;
 
 import java.sql.Connection;
@@ -6,7 +7,9 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 import java.util.Objects;
 
@@ -17,11 +20,13 @@ public class AccountManager {
                     "?,?,?,?,?)";
 
     private static final String SQL_UPDATE_ACCOUNT_INFO =
-            "UPDATE account SET username=?,password=?,gender=?,city=?,age=?,token=?,userType=?,college=?,education=? " +
+            "UPDATE account SET username=?,password=?,gender=?,city=?,age=?,token=?,userType=?,college=?,education=?," +
+                    "familiarArea=? " +
                     "WHERE userId=?";
 
-    private static final String SQL_QUERY_ACCOUNT_BY_USERNAME =
-            "SELECT * FROM account WHERE username = ?";
+    private static final String SQL_QUERY_ACCOUNT_BY_USERNAME = "SELECT * FROM account WHERE username = ?";
+
+    private static final String SQL_QUERY_LAWER = "SELECT * FROM account WHERE userType = 1";
 
     private static final String SQL_GET_LAST_INSERT_ID = "SELECT LAST_INSERT_ID()";
 
@@ -85,7 +90,8 @@ public class AccountManager {
             preparedStatement.setInt(7, account.getUserType());
             preparedStatement.setString(8, account.getCollege());
             preparedStatement.setString(9, account.getEducation());
-            preparedStatement.setString(10, Integer.toString(account.getUserId()));
+            preparedStatement.setInt(10, account.getFamiliarArea());
+            preparedStatement.setInt(11, account.getUserId());
             result = preparedStatement.executeUpdate();
             preparedStatement.close();
         } catch (SQLException e) {
@@ -121,6 +127,11 @@ public class AccountManager {
                 account.setCityCode(resultSet.getInt(Account.PARAM_CITY));
                 account.setGender(resultSet.getInt(Account.PARAM_GENDER));
                 account.setAge(resultSet.getInt(Account.PARAM_AGE));
+                account.setNickName(resultSet.getString(Account.PARAM_NICKNAME));
+                account.setUserType(resultSet.getInt(Account.PARAM_USER_TYPE));
+                account.setCollege(resultSet.getString(Account.PARAM_COLLEGE));
+                account.setEducation(resultSet.getString(Account.PARAM_EDUCATION));
+                account.setFamiliarArea(resultSet.getInt(Account.PARAM_FAMILIAR_AREA));
             }
             resultSet.close();
             preparedStatement.close();
@@ -180,6 +191,29 @@ public class AccountManager {
             DBManager.closeConnection(connection);
         }
         return false;
+    }
+
+    public static List<Account> queryLawerByQuestionType(Question question) {
+        Connection connection = DBManager.getConnection();
+        List<Account> accountList = new ArrayList<>();
+        try {
+            PreparedStatement preparedStatement = connection.prepareStatement(SQL_QUERY_LAWER);
+            ResultSet resultSet = preparedStatement.executeQuery();
+            if (resultSet.next()) {
+                Account account = new Account();
+                account.setUserId(resultSet.getInt(Account.PARAM_USERID));
+                account.setFamiliarArea(resultSet.getInt(Account.PARAM_FAMILIAR_AREA));
+                accountList.add(account);
+            }
+            for (Account account : accountList) {
+                if ((account.getFamiliarArea() & question.getQuestionType()) == 0) {
+                    accountList.remove(account);
+                }
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return accountList;
     }
 
 }

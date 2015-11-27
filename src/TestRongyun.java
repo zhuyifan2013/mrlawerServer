@@ -15,7 +15,7 @@ public class TestRongyun extends HttpServlet {
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         ArrayList<String> arrayList = new ArrayList<>();
-        arrayList.add("5");
+        arrayList.add("3");
         String content = "{\"content\":\"hello\"}";
         RYSystemMsg systemMsg = new RYSystemMsg();
         systemMsg.setFromUserId("4");
