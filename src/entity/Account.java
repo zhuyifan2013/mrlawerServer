@@ -129,6 +129,21 @@ public class Account {
         mToken = token;
     }
 
+    public Account() {
+        this.mUserId = 0;
+        this.mUserType = 0;
+        this.mToken = "";
+        this.mUserName = "";
+        this.mPassword = "";
+        this.mCityCode = 0;
+        this.mNickName = "";
+        this.mGender = 0;
+        this.mAge = 0;
+        this.mCollege = "";
+        this.mEducation = "";
+        this.mFamiliarArea = 0;
+    }
+
     public String toJson() {
         JSONObject jsonObject = new JSONObject();
         try {
@@ -151,6 +166,7 @@ public class Account {
     }
 
     public void fillSelf(String rawJson) {
+        System.out.println(rawJson);
         try {
             JSONObject jsonObject = new JSONObject(rawJson);
             this.setUserId(jsonObject.getInt(PARAM_USERID));
@@ -160,7 +176,7 @@ public class Account {
             this.setNickName(jsonObject.getString(PARAM_NICKNAME));
             this.setGender(jsonObject.getInt(PARAM_GENDER));
             this.setCityCode(jsonObject.getInt(PARAM_USERID));
-            this.setAge(jsonObject.getInt(PARAM_USERID));
+            this.setAge(jsonObject.getInt(PARAM_AGE));
             this.setUserType(jsonObject.getInt(PARAM_USER_TYPE));
             this.setCollege(jsonObject.getString(PARAM_COLLEGE));
             this.setEducation(jsonObject.getString(PARAM_EDUCATION));

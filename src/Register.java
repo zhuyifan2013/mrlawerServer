@@ -31,23 +31,8 @@ public class Register extends HttpServlet {
             throws ServletException, IOException {
         System.out.println("Register.doGet()");
         BasicResponse basicResponse = new BasicResponse();
-        String userName = request.getParameter(Account.PARAM_USERNAME);
-        String passWord = request.getParameter(Account.PARAM_PASSWORD);
-        int gender = Integer.parseInt(request.getParameter(Account.PARAM_GENDER));
-        int city = Integer.parseInt(request.getParameter(Account.PARAM_CITY));
-        int age = Integer.parseInt(request.getParameter(Account.PARAM_AGE));
-        int userType = Integer.parseInt(request.getParameter(Account.PARAM_USER_TYPE));
-        String college = request.getParameter(Account.PARAM_COLLEGE);
-        String education = request.getParameter(Account.PARAM_EDUCATION);
         Account account = new Account();
-        account.setUserName(userName);
-        account.setPassword(passWord);
-        account.setGender(gender);
-        account.setCityCode(city);
-        account.setAge(age);
-        account.setUserType(userType);
-        account.setCollege(college);
-        account.setEducation(education);
+        account.fillSelf(request.getParameter(Account.PARAM_ACCOUNT_INFO));
         HashMap<String, Integer> map = AccountManager.register(account);
         int resultCode = map.get(Constants.KEY_RESULT_CODE);
         if (resultCode != ResultCode.RESULT_OK) {
@@ -62,7 +47,7 @@ public class Register extends HttpServlet {
         if (AccountManager.updateAccountInfo(account) != -1) {
             basicResponse.setResultCode(ResultCode.RESULT_OK);
         }
-        basicResponse.addParam(Constants.KEY_ACCOUNT_INFO, account.toJson());
+        basicResponse.addParam(Account.PARAM_ACCOUNT_INFO, account.toJson());
         response.getWriter().println(basicResponse.toJson());
     }
 
@@ -75,5 +60,4 @@ public class Register extends HttpServlet {
         System.out.println("Register.doPost()");
         doGet(request, response);
     }
-
 }

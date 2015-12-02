@@ -16,8 +16,9 @@ import java.util.Objects;
 public class AccountManager {
 
     private static final String SQL_INSERT_ACCOUNT_INFO =
-            "INSERT INTO account(username,password,gender,city,age,token,userType,college,education) VALUES(?,?,?,?," +
-                    "?,?,?,?,?)";
+            "INSERT INTO account(username,password,gender,city,age,token,userType,college,education,nickname, " +
+                    "familiarArea) VALUES(?,?,?,?," +
+                    "?,?,?,?,?,?,?)";
 
     private static final String SQL_UPDATE_ACCOUNT_INFO =
             "UPDATE account SET username=?,password=?,gender=?,city=?,age=?,token=?,userType=?,college=?,education=?," +
@@ -61,6 +62,8 @@ public class AccountManager {
             preparedStatement.setInt(7, account.getUserType());
             preparedStatement.setString(8, account.getCollege());
             preparedStatement.setString(9, account.getEducation());
+            preparedStatement.setString(10, account.getNickName());
+            preparedStatement.setInt(11, account.getFamiliarArea());
             preparedStatement.executeUpdate();
             ResultSet resultSet = preparedStatement.getGeneratedKeys();
             if (resultSet.next()) {
