@@ -15,10 +15,11 @@ public class TestRongyun extends HttpServlet {
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         ArrayList<String> arrayList = new ArrayList<>();
-        arrayList.add("3");
-        String content = "{\"content\":\"hello\"}";
+        arrayList.add("2");
+        arrayList.add("1");
+        String content = "{\"content\":\"nihao\"}";
         RYSystemMsg systemMsg = new RYSystemMsg();
-        systemMsg.setFromUserId("4");
+        systemMsg.setFromUserId("3");
         systemMsg.setToUserIds(arrayList);
         systemMsg.setObjectName(RYMessage.TYPE_MSG_TEXT);
         systemMsg.setContent(content);

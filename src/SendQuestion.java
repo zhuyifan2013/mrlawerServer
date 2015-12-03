@@ -32,14 +32,7 @@ public class SendQuestion extends HttpServlet {
             IOException {
         BasicResponse basicResponse = new BasicResponse();
         final Question question = new Question();
-//        StringBuilder stringBuilder = new StringBuilder();
-//        BufferedReader bufferedReader = new BufferedReader(new InputStreamReader(request.getInputStream(), "utf-8"));
-//        String tmp;
-//        while ((tmp = bufferedReader.readLine()) != null) {
-//            stringBuilder.append(tmp);
-//        }
-//        bufferedReader.close();
-        System.out.println("receive question");
+        System.out.println("receive question !!!!");
         String rawJson = request.getParameter(Question.PARAM_QUESTIONID_INFO);
         question.fillFromJson(rawJson);
         question.setTimeStart(System.currentTimeMillis());
@@ -65,19 +58,21 @@ public class SendQuestion extends HttpServlet {
     }
 
     private void sendQuestionToLawer(Question question) {
-        List<Account> accountList =  AccountManager.queryLawerByQuestionType(question);
+        List<Account> accountList = AccountManager.queryLawerByQuestionType(question);
         List<String> accountIdList = new ArrayList<>();
-        for(Account account : accountList) {
+        for (Account account : accountList) {
             accountIdList.add(Integer.toString(account.getUserId()));
-            System.out.println(account.getUserId());
+            System.out.println("send to " + account.getUserId());
         }
         RYSystemMsg systemMsg = new RYSystemMsg();
         systemMsg.setToUserIds(accountIdList);
+        System.out.println("from:  " + question.getUserID());
         systemMsg.setFromUserId(Integer.toString(question.getUserID()));
         systemMsg.setObjectName(RYMessage.TYPE_MSG_TEXT);
-        String content = "{\"content\":\"hello\"}";
+        String content = "{\"content\":\"" + question.getText() + "\"}";
         systemMsg.setContent(content);
         systemMsg.setPushContent("这是一个push");
-        RongyunRequest.sendSystemMsg(systemMsg);
+        String httpResponse = RongyunRequest.sendSystemMsg(systemMsg);
+        System.out.println("response :  " + httpResponse);
     }
 }
